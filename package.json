@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    // "build": "next build",
+    "build": "next build",
+    "deploy": "next build && wrangler pages deploy .next",
     "start": "next start",
     "lint": "eslint"
   },
