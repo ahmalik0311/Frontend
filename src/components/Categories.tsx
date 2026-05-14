@@ -41,7 +41,12 @@ export function Categories() {
                 {/* Splash Effect (Animated) */}
                 <motion.div
                   variants={{
-                    hover: { scale: 1.5, opacity: 0.8, filter: "blur(40px)" }
+                    hover: { 
+                      scale: 1.5, 
+                      opacity: 0.8, 
+                      filter: "blur(40px)",
+                      transition: { duration: 0.4 }
+                    }
                   }}
                   animate={{
                     scale: [1, 1.2, 1],
@@ -49,8 +54,7 @@ export function Categories() {
                   }}
                   transition={{
                     scale: { duration: 20, repeat: Infinity, ease: "linear" },
-                    rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                    hover: { duration: 0.4 }
+                    rotate: { duration: 20, repeat: Infinity, ease: "linear" }
                   }}
                   className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full blur-3xl opacity-60 ${cat.splash}`}
                 />

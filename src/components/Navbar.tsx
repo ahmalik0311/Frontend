@@ -75,16 +75,14 @@ export function Navbar() {
                   <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-card border-border">
                     {menCategories.map((item) => (
                       <li key={item.title}>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            href={item.href}
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-bold leading-none">{item.title}</div>
-                            <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
-                              Explore our premium {item.title.toLowerCase()} collection.
-                            </p>
-                          </Link>
+                        <NavigationMenuLink
+                          href={item.href}
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-bold leading-none">{item.title}</div>
+                          <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
+                            Explore our premium {item.title.toLowerCase()} collection.
+                          </p>
                         </NavigationMenuLink>
                       </li>
                     ))}
@@ -130,11 +128,13 @@ export function Navbar() {
             <Search className="h-5 w-5" />
           </Button>
           <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-foreground">
-                <Menu className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
+            <SheetTrigger
+              render={
+                <Button variant="ghost" size="icon" className="text-foreground">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              }
+            />
             <SheetContent side="right" className="bg-background border-border overflow-y-auto">
               <div className="flex flex-col gap-6 mt-12">
                 <div>
