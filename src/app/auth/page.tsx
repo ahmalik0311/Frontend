@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Github, Mail, Chrome } from "lucide-react"
+import { Twitter, Mail, Chrome } from "lucide-react"
 
 export default function AuthPage() {
   return (
@@ -69,7 +69,7 @@ export default function AuthPage() {
                       <Chrome className="h-4 w-4" /> <span className="text-[10px] font-black uppercase tracking-widest">Google</span>
                     </Button>
                     <Button variant="outline" className="h-12 border-border rounded-xl hover:bg-muted/5 gap-2">
-                      <Github className="h-4 w-4" /> <span className="text-[10px] font-black uppercase tracking-widest">GitHub</span>
+                      <Twitter className="h-4 w-4" /> <span className="text-[10px] font-black uppercase tracking-widest">Twitter</span>
                     </Button>
                   </div>
                 </TabsContent>
