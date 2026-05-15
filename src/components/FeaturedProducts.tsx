@@ -1,45 +1,22 @@
 "use client"
 
+import * as React from "react"
 import { ProductCard } from "./ProductCard"
-
-const products = [
-  {
-    id: 1,
-    name: "AeroGlide Stealth",
-    price: "$199.00",
-    category: "Running",
-    image: "/hero-shoe.png",
-    rating: 5,
-    isNew: true,
-  },
-  {
-    id: 2,
-    name: "Luxury Essence",
-    price: "$250.00",
-    category: "Lifestyle",
-    image: "/shoe-1.png",
-    rating: 4,
-  },
-  {
-    id: 3,
-    name: "HyperBurst Neon",
-    price: "$175.00",
-    category: "Basketball",
-    image: "/shoe-2.png",
-    rating: 5,
-    isSale: true,
-  },
-  {
-    id: 4,
-    name: "Urban Explorer",
-    price: "$145.00",
-    category: "Walking",
-    image: "/hero-shoe.png",
-    rating: 4,
-  },
-]
+import { fetchProducts, type AppProduct } from "@/lib/api"
 
 export function FeaturedProducts() {
+  const [products, setProducts] = React.useState<AppProduct[]>([])
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    async function loadProducts() {
+      const allProducts = await fetchProducts()
+      // Show first 4 products for featured
+      setProducts(allProducts.slice(0, 4))
+      setLoading(false)
+    }
+    loadProducts()
+  }, [])
   return (
     <section id="new-arrivals" className="py-24 bg-background">
       <div className="container mx-auto px-4">
@@ -58,9 +35,26 @@ export function FeaturedProducts() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          {loading ? (
+            [...Array(4)].map((_, i) => (
+              <div key={i} className="aspect-square bg-muted animate-pulse rounded-2xl" />
+            ))
+          ) : (
+            products.map((product) => (
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                price={product.price}
+                category={product.category}
+                image={product.image}
+                rating={product.rating}
+                isNew={product.isNew}
+                isSale={product.isSale}
+                salePrice={product.salePrice}
+              />
+            ))
+          )}
         </div>
       </div>
     </section>

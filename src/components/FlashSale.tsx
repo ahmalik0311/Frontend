@@ -4,13 +4,27 @@ import * as React from "react"
 import Image from "next/image"
 import { Zap } from "lucide-react"
 import { ProductCard } from "./ProductCard"
+import { fetchProducts, type AppProduct } from "@/lib/api"
 
 export function FlashSale() {
+  const [products, setProducts] = React.useState<AppProduct[]>([])
+  const [loading, setLoading] = React.useState(true)
   const [timeLeft, setTimeLeft] = React.useState({
     hours: 24,
     minutes: 0,
     seconds: 0
   })
+
+  React.useEffect(() => {
+    async function loadProducts() {
+      const allProducts = await fetchProducts()
+      // Filter for sale products
+      const saleProducts = allProducts.filter(p => p.isSale).slice(0, 2)
+      setProducts(saleProducts)
+      setLoading(false)
+    }
+    loadProducts()
+  }, [])
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -23,27 +37,6 @@ export function FlashSale() {
     }, 1000)
     return () => clearInterval(timer)
   }, [])
-
-  const saleProducts = [
-    {
-      id: 5,
-      name: "Sonic Blast v2",
-      price: "$120.00",
-      category: "Running",
-      image: "/shoe-2.png",
-      rating: 5,
-      isSale: true,
-    },
-    {
-      id: 6,
-      name: "Volt Runner",
-      price: "$95.00",
-      category: "Training",
-      image: "/hero-shoe.png",
-      rating: 4,
-      isSale: true,
-    },
-  ]
 
   return (
     <section className="py-24 bg-card/30 border-y border-border overflow-hidden relative">
@@ -92,9 +85,26 @@ export function FlashSale() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full lg:w-auto">
-            {saleProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {loading ? (
+              // Skeleton Loading
+              [...Array(2)].map((_, i) => (
+                <div key={i} className="w-[300px] h-[450px] bg-muted animate-pulse rounded-2xl" />
+              ))
+            ) : (
+              products.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  category={product.category}
+                  image={product.image}
+                  rating={product.rating}
+                  isSale={product.isSale}
+                  salePrice={product.salePrice}
+                />
+              ))
+            )}
           </div>
         </div>
       </div>

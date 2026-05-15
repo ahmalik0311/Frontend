@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
@@ -96,9 +97,11 @@ export function Hero() {
                 </p>
 
                 <div className="flex flex-wrap gap-4">
-                  <Button size="lg" className="bg-primary text-primary-foreground font-bold h-14 px-8 rounded-full hover:scale-105 transition-transform">
-                    Shop Now <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
+                  <Link href="/shop">
+                    <Button size="lg" className="bg-primary text-primary-foreground font-bold h-14 px-8 rounded-full hover:scale-105 transition-transform">
+                      Shop Now <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
                 </div>
               </motion.div>
             </AnimatePresence>

@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   description: "Step into the future with our premium athletic and lifestyle footwear collection.",
 };
 
+import { StoreProvider } from "@/lib/store-context";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -27,8 +29,13 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${bebasNeue.variable} ${inter.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
+        <StoreProvider>
+          {children}
+        </StoreProvider>
+      </body>
     </html>
   );
 }

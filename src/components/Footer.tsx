@@ -49,10 +49,16 @@ export function Footer() {
           <div>
             <h4 className="text-lg font-bold uppercase tracking-widest mb-8 border-l-4 border-[#FF6B35] pl-4">Company</h4>
             <ul className="space-y-4">
-              {["About Us", "Our Collections", "New Arrivals", "Flash Sale", "Terms of Service"].map((link) => (
-                <li key={link}>
-                  <Link href="#" className="text-gray-400 hover:text-[#FF6B35] transition-colors text-sm uppercase font-bold tracking-tight">
-                    {link}
+              {[
+                { name: "About Us", href: "/about" },
+                { name: "Shop", href: "/shop" },
+                { name: "New Arrivals", href: "/shop?sort=newest" },
+                { name: "Contact Us", href: "/contact" },
+                { name: "FAQ", href: "/faq" },
+              ].map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-gray-400 hover:text-[#FF6B35] transition-colors text-sm uppercase font-bold tracking-tight">
+                    {link.name}
                   </Link>
                 </li>
               ))}
@@ -112,9 +118,13 @@ export function Footer() {
             &copy; {currentYear} <span className="text-white font-bold">SHOEBOX</span>. ALL RIGHTS RESERVED.
           </p>
           <div className="flex gap-8">
-            {["Privacy Policy", "Sitemap", "Cookie Policy"].map((link) => (
-              <Link key={link} href="#" className="text-gray-500 hover:text-white text-[10px] uppercase font-bold tracking-widest transition-colors">
-                {link}
+            {[
+              { name: "Privacy Policy", href: "/policies?type=privacy" },
+              { name: "Return Policy", href: "/policies?type=return" },
+              { name: "Shipping Policy", href: "/policies?type=shipping" },
+            ].map((link) => (
+              <Link key={link.name} href={link.href} className="text-gray-500 hover:text-white text-[10px] uppercase font-bold tracking-widest transition-colors">
+                {link.name}
               </Link>
             ))}
           </div>

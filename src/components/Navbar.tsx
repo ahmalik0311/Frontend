@@ -2,7 +2,8 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Search, ShoppingCart, User, Menu } from "lucide-react"
+import { Search, ShoppingCart, User, Menu, Heart } from "lucide-react"
+import { useStore } from "@/lib/store-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
@@ -26,16 +27,18 @@ const menCategories = [
 ]
 
 const mainNav = [
-  { name: "New Arrival", href: "/collections/new-arrival" },
-  { name: "Major Loafers", href: "/collections/major-loafers" },
-  { name: "On Cloud", href: "/collections/oncloud" },
-  { name: "Runners", href: "/collections/runners" },
-  { name: "Air Jordan", href: "/collections/aj-iv" },
-  { name: "Flash Sale", href: "/collections/12-12-sale" },
+  { name: "Shop", href: "/shop" },
+  { name: "Categories", href: "/categories" },
+  { name: "New Arrival", href: "/shop?sort=newest" },
+  { name: "Flash Sale", href: "/shop?filter=sale" },
+  { name: "Order Tracking", href: "/order-tracking" },
 ]
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = React.useState(false)
+  const { cart, wishlist } = useStore()
+  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0)
+  const wishlistCount = wishlist.length
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -92,11 +95,12 @@ export function Navbar() {
 
               {mainNav.map((link) => (
                 <NavigationMenuItem key={link.name}>
-                  <Link href={link.href} legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-white/5 text-foreground font-bold uppercase tracking-tight")}>
-                      {link.name}
-                    </NavigationMenuLink>
-                  </Link>
+                  <NavigationMenuLink
+                    href={link.href}
+                    className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-white/5 text-foreground font-bold uppercase tracking-tight")}
+                  >
+                    {link.name}
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
             </NavigationMenuList>
@@ -113,12 +117,31 @@ export function Navbar() {
             />
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="text-foreground hover:text-primary rounded-full">
-              <ShoppingCart className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon" className="text-foreground hover:text-primary rounded-full">
-              <User className="h-5 w-5" />
-            </Button>
+            <Link href="/wishlist">
+              <Button variant="ghost" size="icon" className="text-foreground hover:text-primary rounded-full relative">
+                <Heart className="h-5 w-5" />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                    {wishlistCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
+            <Link href="/cart">
+              <Button variant="ghost" size="icon" className="text-foreground hover:text-primary rounded-full relative">
+                <ShoppingCart className="h-5 w-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
+            <Link href="/auth">
+              <Button variant="ghost" size="icon" className="text-foreground hover:text-primary rounded-full">
+                <User className="h-5 w-5" />
+              </Button>
+            </Link>
           </div>
         </div>
 
@@ -161,9 +184,11 @@ export function Navbar() {
                 ))}
 
                 <div className="flex flex-col gap-4 pt-8 border-t border-border mt-auto">
-                  <Button className="w-full bg-primary text-primary-foreground font-bold rounded-full h-12">
-                    Login / Sign Up
-                  </Button>
+                  <Link href="/auth" className="w-full">
+                    <Button className="w-full bg-primary text-primary-foreground font-bold rounded-full h-12">
+                      Login / Sign Up
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </SheetContent>
